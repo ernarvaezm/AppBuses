@@ -62,6 +62,7 @@
         android:id="@+id/button"
         android:layout_centerVertical="true"
         android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3" />
+        android:layout_alignEnd="@+id/textView3"
+        android:onClick="next"/>
 
 </RelativeLayout>

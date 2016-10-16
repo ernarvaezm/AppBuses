@@ -25,6 +25,7 @@
         <item>Transpisa</item>
         <item>Empresarios del Norte</item>
     </string-array>
+    <string name="title_activity_map">MapActivity</string>
 
 </resources>
 
