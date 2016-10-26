@@ -25,7 +25,7 @@
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
         android:layout_marginTop="77dp"
-        android:hint="Ingresar usuario"
+        android:hint="Your email"
         />
 
 
@@ -38,8 +38,7 @@
         android:layout_below="@+id/username"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username"
-        android:text="password"
-        android:hint="Ingresas cont"/>
+        android:hint="Your password"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -51,14 +50,29 @@
         android:layout_alignStart="@+id/pass"
         android:onClick="selfDestruct" />
 
-    <EditText
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="99dp"
+        android:id="@+id/textResponse"
+        android:layout_below="@+id/btnOK"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp" />
+
+    <Button
+        android:text="No account yet ?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/response"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/btnOK"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_alignRight="@+id/pass"
-        android:layout_alignEnd="@+id/pass" />
+        android:id="@+id/ButtonRegister"
+        android:layout_alignBaseline="@+id/btnOK"
+        android:layout_alignBottom="@+id/btnOK"
+        android:layout_toRightOf="@+id/btnOK"
+        android:layout_toEndOf="@+id/btnOK"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:onClick="onClick" />
 
 </RelativeLayout>

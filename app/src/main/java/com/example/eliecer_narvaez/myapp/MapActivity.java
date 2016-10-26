@@ -1,6 +1,7 @@
 package com.example.eliecer_narvaez.myapp;
 
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.gms.maps.*;
@@ -25,10 +26,12 @@ public class MapActivity extends AppCompatActivity {
             googleMap.setMyLocationEnabled(true);
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-            LatLng pos = new LatLng(10, -84);
-            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("Marquita"));
+            LatLng pos = new LatLng(10.336074,-84.432163);
+            LatLng pos2=new LatLng(10.344116,-84.432995);
+            Marker marc=googleMap.addMarker(new MarkerOptions().position(pos).title("Parada Liceo"));
+            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos2).title("Parada Hospital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-            goToLocation(41, 2, 2);
+          //  goToLocation(41, 2, 2);
 
         }catch(Exception e){
 

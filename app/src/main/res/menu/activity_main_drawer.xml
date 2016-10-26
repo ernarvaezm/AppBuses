@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_myBus"
             android:icon="@drawable/ic_menu_location"
-            android:title="Where is my bus"/>
+            android:title="Where is my bus ?"/>
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

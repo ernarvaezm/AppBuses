@@ -10,59 +10,79 @@
     tools:context="com.example.eliecer_narvaez.myapp.BusesActivity">
 
     <TextView
+        android:text="Provincia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView3"
-        android:text="Destination"
+        android:layout_marginTop="28dp"
+        android:id="@+id/textProvincia"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:text="Canton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Company"
-        android:id="@+id/textView4"
-        android:layout_marginTop="22dp"
-        android:layout_below="@+id/spinnerDestinations"
+        android:id="@+id/textCanton"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/spinProvincias"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerDestinations"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:id="@+id/spinRutas"
+        android:layout_below="@+id/textRuta"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:clickable="true" />
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp" />
 
     <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinCantones"
+        android:layout_below="@+id/textCanton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinProvincias"
+        android:layout_below="@+id/textProvincia"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Ruta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerCompanies"
-        android:layout_below="@+id/textView4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:contextClickable="false"
-        android:backgroundTint="#443737"
-        android:clickable="true"
-        android:paddingTop="@dimen/abc_action_bar_content_inset_material" />
+        android:id="@+id/textRuta"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/spinCantones"
+        android:layout_alignRight="@+id/textCanton"
+        android:layout_alignEnd="@+id/textCanton" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
         android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3"
-        android:onClick="next"/>
+        android:onClick="next"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/spinRutas"
+        android:layout_alignLeft="@+id/textRuta"
+        android:layout_alignStart="@+id/textRuta" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:text="dfdfdfdffffd"
+        android:layout_below="@+id/button"
+        android:layout_toRightOf="@+id/textProvincia"
+        android:layout_toEndOf="@+id/textProvincia" />
 
 </RelativeLayout>
