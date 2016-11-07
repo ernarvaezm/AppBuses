@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.eliecer_narvaez.myapp.LoginActivity"
-    tools:background="@drawable/bus_stop_background">
+    android:background="@drawable/bus_stop_background">
 
 
     <EditText
@@ -21,29 +21,6 @@
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username"
         android:hint="Your password"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter"
-        android:id="@+id/btnOK"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/pass"
-        android:layout_alignStart="@+id/pass"
-        android:onClick="selfDestruct" />
-
-    <Button
-        android:text="No account yet ?"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ButtonRegister"
-        android:layout_alignBaseline="@+id/btnOK"
-        android:layout_alignBottom="@+id/btnOK"
-        android:layout_toRightOf="@+id/btnOK"
-        android:layout_toEndOf="@+id/btnOK"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:onClick="onClick" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -58,5 +35,28 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="51dp"
         android:layout_marginEnd="51dp" />
+
+    <Button
+        android:text="No account yet ?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ButtonRegister"
+        android:onClick="onClick"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_alignTop="@+id/btnOK" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter"
+        android:id="@+id/btnOK"
+        android:onClick="selfDestruct"
+        android:layout_below="@+id/pass"
+        android:layout_alignLeft="@+id/pass"
+        android:layout_alignStart="@+id/pass"
+        android:layout_marginTop="129dp" />
 
 </RelativeLayout>
