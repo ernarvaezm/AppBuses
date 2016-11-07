@@ -48,7 +48,7 @@ public class BusesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buses);
-        text = (TextView) findViewById(R.id.textView4);
+        //text = (TextView) findViewById(R.id.textView4);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
