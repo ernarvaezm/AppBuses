@@ -20,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
+
 public class RegisterActitvity extends AppCompatActivity {
     EditText pass;
     EditText email;
@@ -44,14 +46,13 @@ public class RegisterActitvity extends AppCompatActivity {
        user.setEmail(email.getText().toString());
        user.setPassword(pass.getText().toString());
        user.setName(name.getText().toString());
-       Call<JsonArray> call = service.register(user);
+       Call<JSONArray> call = service.register(user);
 
-       call.enqueue(new Callback<JsonArray>() {
+       call.enqueue(new Callback<JSONArray>() {
            @Override
-           public void onResponse(Call<JsonArray> call, retrofit2.Response<JsonArray> response) {
-               if (response.code()!=201){
-                   JsonArray ja = new JsonArray();
+           public void onResponse(Call<JSONArray> call, retrofit2.Response<JSONArray> response) {
 
+               if (response.code()!=201){
 
                    String text= "Incorrect Data ,Try again";
 
@@ -70,7 +71,7 @@ public class RegisterActitvity extends AppCompatActivity {
            }
 
            @Override
-           public void onFailure(Call<JsonArray> call, Throwable t) {
+           public void onFailure(Call<JSONArray> call, Throwable t) {
                String text= "Something Wrong "+t.toString();
 
                int duration = Toast.LENGTH_LONG;

@@ -50,18 +50,6 @@
         android:layout_alignStart="@+id/pass"
         android:onClick="selfDestruct" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="99dp"
-        android:id="@+id/textResponse"
-        android:layout_below="@+id/btnOK"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp" />
-
     <Button
         android:text="No account yet ?"
         android:layout_width="wrap_content"
