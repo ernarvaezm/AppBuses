@@ -7,13 +7,23 @@ package com.example.eliecer_narvaez.myapp.models;
 public class Ruta {
     String nombre;
     int id;
+    int empresa_id;
 
-    public Ruta(String nombre, int id) {
+    public Ruta(String nombre, int id ,int empresa_id) {
         this.nombre = nombre;
         this.id = id;
+        this.empresa_id=empresa_id;
     }
 
     public Ruta() {
+    }
+
+    public int getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(int empresa_id) {
+        this.empresa_id = empresa_id;
     }
 
     public String getNombre() {

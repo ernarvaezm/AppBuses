@@ -6,6 +6,8 @@ package com.example.eliecer_narvaez.myapp.models;
 
 import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,23 +23,28 @@ import retrofit2.http.Field;
 
 public  interface ProvinciaService {
 
+    /**
+     *   @GET("api/cantones/provincia/{id}")
+    *Call<List<Canton>> getCantones(
+     *@Path("id") int id);
+     *@GET("api/provincias")
+     *Call<List<Provincia>> getProvincias();
+     */
 
-    @GET("api/cantones/provincia/{id}")
-    Call<List<Canton>> getCantones(
-            @Path("id") int id);
 
-    @GET("api/provincias")
-    Call<List<Provincia>> getProvincias();
 
     @GET("api/rutas")
     Call<List<Ruta>> getRutas();
+
+    @GET("api/empresas")
+    Call<List<Empresa>> getEmpresas();
 
 
     @POST("/api/login")
     Call<Object> log2(@Body User user);
 
     @POST("/api/register")
-    Call<JsonArray> register(@Body User user);
+    Call<JSONArray> register(@Body User user);
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://enigmatic-spire-20255.herokuapp.com/")

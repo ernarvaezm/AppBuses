@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         pass=(EditText)findViewById(R.id.pass);
-        response1=(TextView)findViewById(R.id.textResponse);
         email=(EditText)findViewById(R.id.username);
         OKBu=(Button)findViewById(R.id.btnOK);
 
@@ -39,6 +38,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void selfDestruct(View view) {
+
+        /**
+         *
+         *
 
         ProvinciaService service = ProvinciaService.retrofit.create(ProvinciaService.class);
         User user =new User();
@@ -78,8 +81,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         });
-
-
+         *
+         */
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 

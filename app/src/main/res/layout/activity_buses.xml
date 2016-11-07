@@ -12,7 +12,7 @@
     android:background="@drawable/bg">
 
     <TextView
-        android:text="Provincia"
+        android:text="Ruta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -22,19 +22,19 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Canton"
+        android:text="Empresa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textCanton"
         android:layout_marginTop="48dp"
-        android:layout_below="@+id/spinProvincias"
+        android:layout_below="@+id/spinRutas"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinRutas"
+        android:id="@+id/spinHorarios"
         android:layout_below="@+id/textRuta"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -44,7 +44,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinCantones"
+        android:id="@+id/spinEmpresas"
         android:layout_below="@+id/textCanton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -52,20 +52,10 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinProvincias"
+        android:id="@+id/spinRutas"
         android:layout_below="@+id/textProvincia"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="Ruta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textRuta"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/spinCantones"
-        android:layout_alignRight="@+id/textCanton"
-        android:layout_alignEnd="@+id/textCanton" />
 
     <Button
         android:layout_width="wrap_content"
@@ -74,8 +64,19 @@
         android:id="@+id/button"
         android:onClick="next"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/spinRutas"
+        android:layout_below="@+id/spinHorarios"
         android:layout_alignLeft="@+id/textRuta"
         android:layout_alignStart="@+id/textRuta" />
+
+
+    <TextView
+        android:text="Horario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textRuta"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/spinEmpresas"
+        android:layout_alignRight="@+id/textCanton"
+        android:layout_alignEnd="@+id/textCanton" />
 
 </RelativeLayout>
