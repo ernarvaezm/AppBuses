@@ -29,7 +29,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BusesActivity" />
         <activity android:name=".MyBusActivity" />
         <activity android:name=".MapActivity" />
 
@@ -44,7 +43,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".RegisterActitvity"></activity>
+        <activity android:name=".RegisterActitvity" />
+        <activity android:name=".buses2Activity"></activity>
     </application>
 
 </manifest>

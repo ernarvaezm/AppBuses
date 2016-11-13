@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_buses) {
-            startActivity(new Intent(MainActivity.this, BusesActivity.class));
+            startActivity(new Intent(MainActivity.this, buses2Activity.class));
 
         } else if (id == R.id.nav_myBus) {
             startActivity(new Intent(MainActivity.this, MyBusActivity.class));
