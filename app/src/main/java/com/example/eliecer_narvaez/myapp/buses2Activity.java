@@ -24,6 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 public class buses2Activity extends AppCompatActivity {
 
+    private  int ruta_id=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class buses2Activity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                  Ruta ruta= ((Ruta) parent.getSelectedItem());
+                ruta_id=ruta.getId();
 
                  fillSpinnerSchedule(ruta.getId());
             }
@@ -145,6 +148,12 @@ public class buses2Activity extends AppCompatActivity {
         Spinner spinner = (Spinner) findViewById(R.id.spinnerHorarios);
         ArrayAdapter<Horario> spinnerAdapter = new ArrayAdapter<Horario>(this, R.layout.spinner, R.id.text,myList);
         spinner.setAdapter(spinnerAdapter);
+    }
+
+    public  void next(View view){
+        Intent intent =new Intent(buses2Activity.this,MapActivity.class);
+        intent.putExtra("ruta_id",ruta_id);
+        startActivity(intent);
     }
 
 }
