@@ -152,8 +152,9 @@ public class buses2Activity extends AppCompatActivity {
 
     public  void next(View view){
         Intent intent =new Intent(buses2Activity.this,MapActivity.class);
-        intent.putExtra("ruta_id",ruta_id);
+        intent.putExtra("ruta_id",String.valueOf(ruta_id));
         startActivity(intent);
+
     }
 
 }

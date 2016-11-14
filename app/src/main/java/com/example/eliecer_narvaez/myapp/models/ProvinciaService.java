@@ -36,6 +36,10 @@ public  interface ProvinciaService {
     Call<List<Horario>> getHorarios(
             @Path("id") int id);
 
+    @GET("api/paradas/ruta/{id}")
+    Call<List<Parada>> getParadas(
+            @Path("id") int id);
+
     @GET("api/rutas")
     Call<List<Ruta>> getRutas();
 

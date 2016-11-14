@@ -39,50 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void selfDestruct(View view) {
 
-        /**
-         *
-         *
 
-        ProvinciaService service = ProvinciaService.retrofit.create(ProvinciaService.class);
-        User user =new User();
-        user.setEmail(email.getText().toString());
-        user.setPassword(pass.getText().toString());
-        Call<Object> call = service.log2(user);
-
-        call.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, retrofit2.Response<Object> response) {
-                if (response.code()==200){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else {
-                    String text= "Incorrect Credentials.Try again";
-
-                    int duration = Toast.LENGTH_LONG;
-                    Context context = getApplicationContext();
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                String text= t.toString();
-                int duration = Toast.LENGTH_LONG;
-                Context context = getApplicationContext();
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-            }
-
-        });
-         *
-         */
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

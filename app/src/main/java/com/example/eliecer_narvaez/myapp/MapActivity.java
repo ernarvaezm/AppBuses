@@ -3,27 +3,58 @@ package com.example.eliecer_narvaez.myapp;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.ActivityInfo;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
+import com.example.eliecer_narvaez.myapp.models.Parada;
+import com.example.eliecer_narvaez.myapp.models.ProvinciaService;
+import com.example.eliecer_narvaez.myapp.models.Ruta;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class MapActivity extends AppCompatActivity implements OnMarkerClickListener{
+import java.lang.reflect.Array;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
+public class MapActivity extends AppCompatActivity {
 
     GoogleMap googleMap;
-    Marker marc ;
+    static HttpClient cliente =new DefaultHttpClient();
+    static HttpContext contexto = new BasicHttpContext();
+    public static ArrayList<String>	listado;
+    Ubicacion objUbicacion = new Ubicacion();
+    String ruta_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        ruta_id = getIntent().getStringExtra("ruta_id");
+
 
         //clave:AIzaSyCy6f6aaZPQkDtN-CFvjfwmr7Z5teBJoow
         try {
@@ -33,55 +64,59 @@ public class MapActivity extends AppCompatActivity implements OnMarkerClickListe
             }
 
             googleMap.setMyLocationEnabled(true);
-            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-            LatLng pos = new LatLng(10.367148,-84.436197);
-            LatLng pos2=new LatLng(10.367378,-84.438204);
-            LatLng pos3=new LatLng(10.365162,-84.439985);
-            LatLng pos4=new LatLng(10.363019,-84.440349);
-            LatLng pos5=new LatLng(10.361246,-84.440575);
-            LatLng pos6=new LatLng(10.359688,-84.441079);
-            LatLng pos7=new LatLng(10.358686,-84.440741);
-            LatLng pos8=new LatLng(10.355335,-84.437726);
-            LatLng pos9=new LatLng(10.350945,-84.434878);
-            LatLng pos10=new LatLng(10.348993,-84.434266);
-
-            LatLng pos11=new LatLng(10.345763,-84.433526);
-
-             marc=googleMap.addMarker(new MarkerOptions().position(pos2).title("COPA") .snippet("This is my spot!"));
-
-            Marker marc1=googleMap.addMarker(new MarkerOptions().position(pos3).title("Parada Lavacar"));
-            Marker marc2=googleMap.addMarker(new MarkerOptions().position(pos4).title("Parada Cruce loma Verde"));
-            Marker marc3=googleMap.addMarker(new MarkerOptions().position(pos5).title("Parada Cruce"));
-            Marker marc4=googleMap.addMarker(new MarkerOptions().position(pos6).title("Parada Super la familia ").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-            Marker marc5=googleMap.addMarker(new MarkerOptions().position(pos7).title("Parada Cruce"));
-            Marker marc6=googleMap.addMarker(new MarkerOptions().position(pos8).title("Parada Nissan").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-            Marker marc7=googleMap.addMarker(new MarkerOptions().position(pos9).title("Parada ?").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
 
-            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos11).title("Parada  Siglo XXI").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            LatLng pos = new LatLng(10.280413, -84.394573);
+            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("San Vicente"));
 
-          //  goToLocation(41, 2, 2);
+            goToLocation(10, -84, 6);
+            final String id = "Elias";
+            this.getCoordenadas(id);
+
+            LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Localizacion Local = new  Localizacion();
+            Local.setMapActivity(this);
+            mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
+
+            getParadas();
+
 
         }catch(Exception e){
 
-        }
-        googleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if (marker.getTitle().equals("COPA")){
-                    Intent intent = new Intent(MapActivity.this, MyBusActivity.class);
-                    startActivity(intent);
-                    finish();
 
+        }
+    }
+
+    public  void getParadas(){
+
+        ProvinciaService gitHubService = ProvinciaService.retrofit.create(ProvinciaService.class);
+        Call<List<Parada>> call = gitHubService.getParadas(Integer.valueOf(ruta_id));
+
+        call.enqueue(new Callback<List<Parada>>() {
+            @Override
+            public void onResponse(Call<List<Parada>> call, retrofit2.Response<List<Parada>> response) {
+
+                for(int i=0; i<response.body().size(); i++){
+
+                    LatLng posBus = new LatLng(Double.parseDouble(response.body().get(i).getLat()), Double.parseDouble(response.body().get(i).getLon()));
+                    //LatLng posBus = new LatLng(10.280413, -84.394573);
+                    Marker marcaBus = googleMap.addMarker(new MarkerOptions()
+                            .position(posBus)
+                            .title(response.body().get(i).getNombre())
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                 }
 
+            }
+
+            @Override
+            public void onFailure(Call<List<Parada>> call, Throwable t) {
 
             }
+
         });
 
     }
-
     void goToLocation(double lat, double lng, float zoom) {
 
         LatLng pos = new LatLng(lat,lng);
@@ -89,12 +124,162 @@ public class MapActivity extends AppCompatActivity implements OnMarkerClickListe
         googleMap.moveCamera(update);
     }
 
+    public void getCoordenadas(String pId) {
+
+        listado = new ArrayList<String>();
+        final String id = pId;
+
+        Thread tr = new Thread(){
+            @Override
+            public void run(){
 
 
+                final String resultado = leer(id);
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
+                runOnUiThread(
+                        new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Ubicacion Ubi = obtDatosJSON(resultado);
+                                LatLng posBus = new LatLng(Double.parseDouble(Ubi.getLatitud()), Double.parseDouble(Ubi.getLongitud()));
+                                //LatLng posBus = new LatLng(10.280413, -84.394573);
+                                Marker marcaBus = googleMap.addMarker(new MarkerOptions()
+                                        .position(posBus)
+                                        .title("Chofer Elias")
+                                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                            }
+                        });
+            }
+        };
+        tr.start();
+
+        final  Runnable msj = new Runnable() {
+
+            @Override
+            public void run() {
+
+                LatLng posBus = new LatLng(Double.parseDouble(objUbicacion.getLatitud()), Double.parseDouble(objUbicacion.getLongitud()));
+                Marker marcaBus = googleMap.addMarker(new MarkerOptions()
+                        .position(posBus)
+                        .title("Chofer Elias")
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                return;
+            }
+        };
+
+    }
+
+    public String leer(String pId){
+
+        HttpClient cliente =new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        //HttpPost httpPost = new HttpPost("http://192.168.1.5/dbHandlerMerFilt/getCoordenadas.php");
+        HttpPost httpPost = new HttpPost("http://escuelacr.esy.es/getCoordenadas.php");
+
+        String resultado=null;
+
+        //try {
+
+        HttpResponse response = null;
+
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>(0);
+            params.add(new BasicNameValuePair("id", pId));
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+            response = cliente.execute(httpPost, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+
+        } catch (Exception e) {
+
+        }
+
+        return resultado;
+
+    }
+
+    public Ubicacion obtDatosJSON(String response){
+        //esta variable debe ser global final static ********************
+        //ArrayList<Consumible> listado= new ArrayList<Consumible>();
+        //Ubicacion objUbicacion = new Ubicacion();
+        try {
+
+            JSONArray json= new JSONArray(response);
+            //Consumible objConsumible = new Consumible();
+            //ArrayList<String> list = new ArrayList<String>();
+
+
+            for (int i=0; i<json.length();i++){
+                objUbicacion = new Ubicacion(   json.getJSONObject(i).getString("0"),
+                        json.getJSONObject(i).getString("1"),
+                        json.getJSONObject(i).getString("2"),
+                        json.getJSONObject(i).getString("3"),
+                        json.getJSONObject(i).getString("4"));
+
+                //listado.add(list);
+
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        return objUbicacion;
+    }
+
+    public class Localizacion implements LocationListener {
+        MapActivity MapActivity;
+
+
+        public MapActivity getMapActivity() {
+            return MapActivity;
+        }
+
+        public void setMapActivity(MapActivity MapActivity) {
+            this.MapActivity = MapActivity;
+        }
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
+            // debido a la deteccion de un cambio de ubicacion
+
+            loc.getLatitude();
+            loc.getLongitude();
+            String Text = "Mi ubicacion actual es: " + "\n Lat = "
+                    + loc.getLatitude() + "\n Long = " + loc.getLongitude();
+
+            final String id = "Elias";
+            getCoordenadas(id);
+
+            //txtLatitud.setText(Text);
+            //this.MapActivity.setLocation(loc);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es desactivado
+            //txtLatitud.setText("GPS Desactivado");
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es activado
+            //txtLatitud.setText("GPS Activado");
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // Este metodo se ejecuta cada vez que se detecta un cambio en el
+            // status del proveedor de localizacion (GPS)
+            // Los diferentes Status son:
+            // OUT_OF_SERVICE -> Si el proveedor esta fuera de servicio
+            // TEMPORARILY_UNAVAILABLE -> Temporalmente no disponible pero se
+            // espera que este disponible en breve
+            // AVAILABLE -> Disponible
+        }
+
     }
 }
 
