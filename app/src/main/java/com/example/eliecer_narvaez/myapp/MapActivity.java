@@ -56,31 +56,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     Ubicacion objUbicacion = new Ubicacion();
     String ruta_id;
 
-    //Tratando de modificar el evento click en el marcador
-    private void setUpMap()
-    {
-        googleMap.setOnMarkerClickListener(this);
-    }
-    @Override
-    public boolean onMarkerClick (Marker marker) {
 
-        String name= marker.getTitle();
-
-        if (name.equalsIgnoreCase("Chofer Elias"))
-        {
-            Context context = getApplicationContext();
-
-            CharSequence text = "hpalals";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            return true;
-        }
-
-        return false;
-    }
-    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +90,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
 
             getParadas();
+            setUpMap();
+
 
 
         }catch(Exception e){
@@ -121,6 +99,36 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
         }
     }
+
+    //Tratando de modificar el evento click en el marcador
+    private void setUpMap()
+    {
+        googleMap.setOnMarkerClickListener(this);
+    }
+    @Override
+    public boolean onMarkerClick (Marker marker) {
+
+
+        String name= marker.getTitle();
+
+
+        if (name.equalsIgnoreCase("Bus"))
+        {
+            Context context = getApplicationContext();
+
+            CharSequence text = "DETALLES DEL BUS";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return true;
+        }else {
+            //llamar a funcion que muestra los buses que pasan por la parada seleccionada
+        }
+
+        return false;
+    }
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
     public  void getParadas(){
 
@@ -179,7 +187,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                                 //LatLng posBus = new LatLng(10.280413, -84.394573);
                                 Marker marcaBus = googleMap.addMarker(new MarkerOptions()
                                         .position(posBus)
-                                        .title("Chofer Elias")
+                                        .title("Chofer")
                                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                             }
                         });
