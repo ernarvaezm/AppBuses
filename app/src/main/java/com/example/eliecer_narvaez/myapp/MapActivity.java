@@ -68,7 +68,7 @@ public class MapActivity extends AppCompatActivity {
 
 
             LatLng pos = new LatLng(10.280413, -84.394573);
-            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("San Vicente"));
+            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("Bus"));
 
             goToLocation(10, -84, 6);
             final String id = "Elias";
@@ -104,7 +104,7 @@ public class MapActivity extends AppCompatActivity {
                     Marker marcaBus = googleMap.addMarker(new MarkerOptions()
                             .position(posBus)
                             .title(response.body().get(i).getNombre())
-                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_stop)));
                 }
 
             }
