@@ -1,31 +1,11 @@
 <resources>
     <string name="app_name">Buses</string>
-    <string name="title_activity_index">indexActivity</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-
-    <string-array name="destinations_array">
-        <item>Florencia</item>
-        <item>Santa Clara</item>
-        <item>Los chiles</item>
-        <item>El Tanque</item>
-        <item>Fortuna</item>
-        <item>Guatuso</item>
-        <item>Upala</item>
-        <item>Peñas Blancas</item>
-    </string-array>
-
-    <string-array name="companies_array">
-        <item>Chilsaca</item>
-        <item>Transportes Upala</item>
-        <item>Transpisa</item>
-        <item>Empresarios del Norte</item>
-    </string-array>
-    <string name="title_activity_map">MapActivity</string>
 
 </resources>
 
