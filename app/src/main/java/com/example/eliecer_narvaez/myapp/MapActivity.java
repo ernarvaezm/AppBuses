@@ -41,6 +41,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import java.lang.String;
+import android.widget.Toast;
+import android.content.Context;
+
+
+
 public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
     GoogleMap googleMap;
@@ -62,10 +68,17 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
         if (name.equalsIgnoreCase("Chofer Elias"))
         {
-            return false;
+            Context context = getApplicationContext();
+
+            CharSequence text = "hpalals";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return true;
         }
 
-        return true;
+        return false;
     }
     //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
