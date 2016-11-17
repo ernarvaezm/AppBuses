@@ -1,5 +1,6 @@
 package com.example.eliecer_narvaez.myapp;
 
+import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -39,7 +41,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
 
     GoogleMap googleMap;
     static HttpClient cliente =new DefaultHttpClient();
@@ -48,6 +50,25 @@ public class MapActivity extends AppCompatActivity {
     Ubicacion objUbicacion = new Ubicacion();
     String ruta_id;
 
+    //Tratando de modificar el evento click en el marcador
+    private void setUpMap()
+    {
+        googleMap.setOnMarkerClickListener(this);
+    }
+    @Override
+    public boolean onMarkerClick (Marker marker) {
+
+        String name= marker.getTitle();
+
+        if (name.equalsIgnoreCase("Chofer Elias"))
+        {
+            return false;
+        }
+
+        return true;
+    }
+    //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -106,7 +127,6 @@ public class MapActivity extends AppCompatActivity {
                             .title(response.body().get(i).getNombre())
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                 }
-
             }
 
             @Override
