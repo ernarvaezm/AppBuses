@@ -10,15 +10,12 @@ import android.widget.Toast;
 import android.content.Context;
 
 
-import com.example.eliecer_narvaez.myapp.models.ProvinciaService;
+import com.example.eliecer_narvaez.myapp.models.ConnectionService;
 import com.example.eliecer_narvaez.myapp.models.User;
-import com.google.gson.JsonArray;
-
 
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 
@@ -41,7 +38,7 @@ public class RegisterActitvity extends AppCompatActivity {
 
    public void register(View view){
 
-       ProvinciaService service = ProvinciaService.retrofit.create(ProvinciaService.class);
+       ConnectionService service = ConnectionService.retrofit.create(ConnectionService.class);
        User user =new User();
        user.setEmail(email.getText().toString());
        user.setPassword(pass.getText().toString());

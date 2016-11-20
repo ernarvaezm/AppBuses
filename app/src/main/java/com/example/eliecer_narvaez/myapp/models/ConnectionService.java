@@ -21,7 +21,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Field;
 
 
-public  interface ProvinciaService {
+public  interface ConnectionService {
 
     /**
      *   @GET("api/cantones/provincia/{id}")
@@ -38,6 +38,10 @@ public  interface ProvinciaService {
 
     @GET("api/paradas/ruta/{id}")
     Call<List<Parada>> getParadas(
+            @Path("id") int id);
+
+    @GET("api/buses/parada/{id}")
+    Call<List<Bus>> getBuses(
             @Path("id") int id);
 
     @GET("api/rutas")

@@ -1,10 +1,7 @@
 package com.example.eliecer_narvaez.myapp;
 
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.eliecer_narvaez.myapp.models.Parada;
-import com.example.eliecer_narvaez.myapp.models.ProvinciaService;
-import com.example.eliecer_narvaez.myapp.models.Ruta;
+import com.example.eliecer_narvaez.myapp.models.Bus;
+import com.example.eliecer_narvaez.myapp.models.ConnectionService;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
@@ -30,12 +27,8 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,8 +36,7 @@ import retrofit2.Callback;
 
 import java.lang.String;
 import android.widget.Toast;
-import android.content.Context;
-
+import android.graphics.Color;
 
 
 public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener {
@@ -55,6 +47,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     public static ArrayList<String>	listado;
     Ubicacion objUbicacion = new Ubicacion();
     String ruta_id;
+    PolylineOptions lineas = new PolylineOptions();
+    Marker marcaBus = null;
 
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -73,16 +67,17 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                 googleMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
             }
 
-            googleMap.setMyLocationEnabled(true);
+
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
 
 
-            LatLng pos = new LatLng(10.280413, -84.394573);
-            Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("Bus"));
+            //LatLng pos = new LatLng(10.280413, -84.394573);
+            //Marker marca = googleMap.addMarker(new MarkerOptions().position(pos).title("Bus"));
 
-            goToLocation(10, -84, 6);
-            final String id = "Elias";
-            this.getCoordenadas(id);
+            //goToLocation(10, -84, 6);
+            //final String id = "Elias";
+            //this.getCoordenadas(id);
 
             LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Localizacion Local = new  Localizacion();
@@ -109,21 +104,19 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     public boolean onMarkerClick (Marker marker) {
 
 
-        String name= marker.getTitle();
+        String name= marker.getSnippet();
+        String [] list =name.split(":");
 
-
-        if (name.equalsIgnoreCase("Bus"))
+        if (list[0].toString()=="Parada")
         {
-            Context context = getApplicationContext();
-
-            CharSequence text = "DETALLES DEL BUS";
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+            
             return true;
         }else {
+
+
             //llamar a funcion que muestra los buses que pasan por la parada seleccionada
+
+
         }
 
         return false;
@@ -132,7 +125,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
     public  void getParadas(){
 
-        ProvinciaService gitHubService = ProvinciaService.retrofit.create(ProvinciaService.class);
+        ConnectionService gitHubService = ConnectionService.retrofit.create(ConnectionService.class);
         Call<List<Parada>> call = gitHubService.getParadas(Integer.valueOf(ruta_id));
 
         call.enqueue(new Callback<List<Parada>>() {
@@ -143,11 +136,16 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
                     LatLng posBus = new LatLng(Double.parseDouble(response.body().get(i).getLat()), Double.parseDouble(response.body().get(i).getLon()));
                     //LatLng posBus = new LatLng(10.280413, -84.394573);
-                    Marker marcaBus = googleMap.addMarker(new MarkerOptions()
+                    Marker marcaParadas = googleMap.addMarker(new MarkerOptions()
                             .position(posBus)
                             .title(response.body().get(i).getNombre())
+                            .snippet(String.valueOf("Parada:"+response.body().get(i).getId()))
                             .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_bus_stop)));
                 }
+
+                LatLng pos = new LatLng(Double.parseDouble(response.body().get(0).getLat()), Double.parseDouble(response.body().get(0).getLon()));
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(pos, 15);
+                googleMap.moveCamera(update);
             }
 
             @Override
@@ -182,13 +180,20 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
 
                             @Override
                             public void run() {
+
                                 Ubicacion Ubi = obtDatosJSON(resultado);
                                 LatLng posBus = new LatLng(Double.parseDouble(Ubi.getLatitud()), Double.parseDouble(Ubi.getLongitud()));
                                 //LatLng posBus = new LatLng(10.280413, -84.394573);
-                                Marker marcaBus = googleMap.addMarker(new MarkerOptions()
-                                        .position(posBus)
-                                        .title("Chofer")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                                if(marcaBus != null) {
+                                    marcaBus.setPosition(posBus);
+                                }else if(marcaBus == null) {
+
+
+                                    marcaBus = googleMap.addMarker(new MarkerOptions()
+                                            .position(posBus)
+                                            .title("Bus name")
+                                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
+                                }
                             }
                         });
             }
@@ -200,11 +205,6 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             @Override
             public void run() {
 
-                LatLng posBus = new LatLng(Double.parseDouble(objUbicacion.getLatitud()), Double.parseDouble(objUbicacion.getLongitud()));
-                Marker marcaBus = googleMap.addMarker(new MarkerOptions()
-                        .position(posBus)
-                        .title("Chofer Elias")
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
                 return;
             }
         };
@@ -265,7 +265,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         } catch (Exception e) {
             // TODO: handle exception
         }
-
+        lineas.add(new LatLng(Double.parseDouble(objUbicacion.getLatitud()), Double.parseDouble(objUbicacion.getLongitud())));
+        dibujaPolyLine();
         return objUbicacion;
     }
 
@@ -292,7 +293,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                     + loc.getLatitude() + "\n Long = " + loc.getLongitude();
 
             final String id = "Elias";
-            getCoordenadas(id);
+           // getCoordenadas(id);
 
             //txtLatitud.setText(Text);
             //this.MapActivity.setLocation(loc);
@@ -321,6 +322,22 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             // AVAILABLE -> Disponible
         }
 
+    }
+    public void dibujaPolyLine(){
+
+        //int lineasContador = lineas.getPoints().size();
+
+        //for (int i=0; i<lineas.getPoints().size();i++){
+
+
+
+        lineas.width(8);
+        lineas.color(Color.RED);
+        googleMap.addPolyline(lineas);
+
+        //listado.add(list);
+
+        //}
     }
 }
 

@@ -5,13 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 
 import com.example.eliecer_narvaez.myapp.models.*;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.lang.String;
 import android.widget.Toast;
@@ -30,7 +27,7 @@ public class buses2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buses3);
-        ProvinciaService gitHubService = ProvinciaService.retrofit.create(ProvinciaService.class);
+        ConnectionService gitHubService = ConnectionService.retrofit.create(ConnectionService.class);
         Call<List<Ruta>> call = gitHubService.getRutas();
 
         call.enqueue(new Callback<List<Ruta>>() {
@@ -117,7 +114,7 @@ public class buses2Activity extends AppCompatActivity {
     }
     public void fillSpinnerSchedule(int id){
 
-        ProvinciaService g = ProvinciaService.retrofit.create(ProvinciaService.class);
+        ConnectionService g = ConnectionService.retrofit.create(ConnectionService.class);
         Call<List<Horario>> call = g.getHorarios(id);
 
         call.enqueue(new Callback<List<Horario>>() {
