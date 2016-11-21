@@ -87,8 +87,6 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             getParadas();
             setUpMap();
 
-
-
         }catch(Exception e){
 
 
@@ -107,10 +105,32 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         String name= marker.getSnippet();
         String [] list =name.split(":");
 
-        if (list[0].toString()=="Parada")
+        if (list[0].toString().equals("Parada"))
         {
-            
+
+            ConnectionService gitHubService = ConnectionService.retrofit.create(ConnectionService.class);
+            Call<List<Bus>> call = gitHubService.getBuses(Integer.valueOf(list[1].toString()));
+
+            call.enqueue(new Callback<List<Bus>>() {
+                @Override
+                public void onResponse(Call<List<Bus>> call, retrofit2.Response<List<Bus>> response) {
+
+                    for(int i=0; i<response.body().size(); i++){
+
+                        getCoordenadas(String.valueOf(response.body().get(i).getId()));
+                    }
+
+                    }
+
+                @Override
+                public void onFailure(Call<List<Bus>> call, Throwable t) {
+
+                }
+
+
+            });
             return true;
+
         }else {
 
 
@@ -292,8 +312,6 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             String Text = "Mi ubicacion actual es: " + "\n Lat = "
                     + loc.getLatitude() + "\n Long = " + loc.getLongitude();
 
-            final String id = "Elias";
-           // getCoordenadas(id);
 
             //txtLatitud.setText(Text);
             //this.MapActivity.setLocation(loc);
