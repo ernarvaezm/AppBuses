@@ -14,17 +14,17 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="173dp"
+        android:layout_height="70dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/ic_menu_bus"
-        tools:src="@drawable/bus" />
+        tools:src="@drawable/busb" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="168dp"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Encuntre su bus"
+        android:text="Encuentre su bus"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
