@@ -44,7 +44,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".RegisterActitvity" />
-        <activity android:name=".buses2Activity"></activity>
+        <activity android:name=".buses2Activity" />
+        <activity android:name=".RutaActivity"></activity>
     </application>
 
 </manifest>

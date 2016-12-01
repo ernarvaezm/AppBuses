@@ -55,9 +55,9 @@ public class buses2Activity extends AppCompatActivity {
 
                  Ruta ruta= ((Ruta) parent.getSelectedItem());
                 ruta_id=ruta.getId();
-
-                 fillSpinnerSchedule(ruta.getId());
                 fillSpinnerCompany(ruta.getId());
+                 fillSpinnerSchedule(ruta.getId());
+
             }
 
             @Override
@@ -104,6 +104,8 @@ public class buses2Activity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Horario>> call, retrofit2.Response<List<Horario>> response) {
                 if(response.code()==422){
+                    Spinner spinner = (Spinner) findViewById(R.id.spinnerHorarios);
+                    spinner.setAdapter(null);
                     Context context = getApplicationContext();
 
                     CharSequence text = "Esta ruta no tiene horarios asociados!";
@@ -144,6 +146,8 @@ public class buses2Activity extends AppCompatActivity {
             public void onResponse(Call<List<Empresa>> call, retrofit2.Response<List<Empresa>> response) {
 
                 if(response.code()==422){
+                    Spinner spinner = (Spinner) findViewById(R.id.spinnerEmpresas);
+                    spinner.setAdapter(null);
                     Context context = getApplicationContext();
 
                     CharSequence text = "Esta ruta no tiene empresas asociadas!";
