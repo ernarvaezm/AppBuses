@@ -43,22 +43,6 @@ public class buses2Activity extends AppCompatActivity {
             }
 
         });
-        Call<List<Empresa>> callCompanies = gitHubService.getEmpresas();
-
-        callCompanies.enqueue(new Callback<List<Empresa>>() {
-            @Override
-            public void onResponse(Call<List<Empresa>> call, retrofit2.Response<List<Empresa>> response) {
-
-                fillSpinnerEmpresas(response.body());
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Empresa>> call, Throwable t) {
-
-            }
-
-        });
 
     }
     public void fillSpinnerRutas(List<Ruta> myList){
@@ -73,6 +57,7 @@ public class buses2Activity extends AppCompatActivity {
                 ruta_id=ruta.getId();
 
                  fillSpinnerSchedule(ruta.getId());
+                fillSpinnerCompany(ruta.getId());
             }
 
             @Override
@@ -109,8 +94,6 @@ public class buses2Activity extends AppCompatActivity {
             }
 
         });
-
-
     }
     public void fillSpinnerSchedule(int id){
 
@@ -120,7 +103,19 @@ public class buses2Activity extends AppCompatActivity {
         call.enqueue(new Callback<List<Horario>>() {
             @Override
             public void onResponse(Call<List<Horario>> call, retrofit2.Response<List<Horario>> response) {
-                loadData(response.body());
+                if(response.code()==422){
+                    Context context = getApplicationContext();
+
+                    CharSequence text = "Esta ruta no tiene horarios asociados!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                if (response.code()==200){
+                    loadData(response.body());
+                }
+
 
             }
 
@@ -139,11 +134,56 @@ public class buses2Activity extends AppCompatActivity {
         });
 
     }
+    public void fillSpinnerCompany(int id){
+
+        ConnectionService g = ConnectionService.retrofit.create(ConnectionService.class);
+        Call<List<Empresa>> call = g.getEmpresas(id);
+
+        call.enqueue(new Callback<List<Empresa>>() {
+            @Override
+            public void onResponse(Call<List<Empresa>> call, retrofit2.Response<List<Empresa>> response) {
+
+                if(response.code()==422){
+                    Context context = getApplicationContext();
+
+                    CharSequence text = "Esta ruta no tiene empresas asociadas!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                if(response.code()==200){
+                    loadDataCompany(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Empresa>> call, Throwable t) {
+                Context context = getApplicationContext();
+
+                CharSequence text = "ERROR !"+t.toString();
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+            }
+
+        });
+
+    }
 
     private void loadData(  List<Horario> myList){
 
         Spinner spinner = (Spinner) findViewById(R.id.spinnerHorarios);
         ArrayAdapter<Horario> spinnerAdapter = new ArrayAdapter<Horario>(this, R.layout.spinner, R.id.text,myList);
+        spinner.setAdapter(spinnerAdapter);
+    }
+    private void loadDataCompany( List<Empresa> myList){
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinnerEmpresas);
+        ArrayAdapter<Empresa> spinnerAdapter = new ArrayAdapter<Empresa>(this, R.layout.spinner, R.id.text,myList);
         spinner.setAdapter(spinnerAdapter);
     }
 

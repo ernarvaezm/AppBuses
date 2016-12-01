@@ -44,11 +44,13 @@ public  interface ConnectionService {
     Call<List<Bus>> getBuses(
             @Path("id") int id);
 
+
+    @GET("api/empresas/ruta/{id}")
+    Call<List<Empresa>> getEmpresas(
+            @Path("id") int id);
+
     @GET("api/rutas")
     Call<List<Ruta>> getRutas();
-
-    @GET("api/empresas")
-    Call<List<Empresa>> getEmpresas();
 
 
     @POST("/api/login")
