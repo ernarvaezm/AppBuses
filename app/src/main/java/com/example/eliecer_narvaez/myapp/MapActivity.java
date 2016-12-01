@@ -40,6 +40,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import java.lang.String;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import android.widget.Toast;
 import android.graphics.Color;
 
@@ -89,8 +93,15 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
             LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Localizacion Local = new  Localizacion();
             Local.setMapActivity(this);
-            mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
-
+            final Runnable tarea = new Runnable() {
+                public void run() {
+                    if (idBusSeleccionado != null) {
+                        getCoordenadas(idBusSeleccionado);
+                    }
+                }
+            };
+            ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+            timer.scheduleAtFixedRate(tarea, 1, 5, TimeUnit.SECONDS);
             getParadas();
             setUpMap();
 
@@ -112,6 +123,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     @Override
     public boolean onMarkerClick (Marker marker) {
 
+        marker.showInfoWindow();
         String name= marker.getSnippet();
         String [] list =name.split(":");
 
